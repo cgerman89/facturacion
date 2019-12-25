@@ -1,6 +1,7 @@
 from django.urls import path
 from core.views import Home
 from django.contrib.auth import views as auth_views
+
 app_name = 'core'
 urlpatterns = [
     path('', Home.as_view(), name='home'),
