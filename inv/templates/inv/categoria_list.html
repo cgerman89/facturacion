@@ -1,5 +1,7 @@
 {% extends 'core/base.html' %}
 
+{% block title_page %} categorias page {% endblock %}
+
 {% block title_header %} Categorias {% endblock %}
 
 {% block contenido %}
@@ -11,20 +13,53 @@
                 <h3 class="card-title">Listado Categorias</h3>
 
                 <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                    <i class="fas fa-minus"></i></button>
-                  <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
-                    <i class="fas fa-times"></i></button>
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
+                       <i class="fas fa-info-circle"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" role="menu">
+                      <a href="{% url 'inv:categoria_new' %}" class="dropdown-item"><i class="far fa-plus-square"></i> &nbsp; Agregar</a>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="card-body">
 
+                <table class="table table-sm table-bordered table-striped table-hover" id="table_categoria">
+                    <thead>
+                        <tr>
+                           <th>ID</th>
+                           <th>Descripcion</th>
+                           <th>Estado</th>
+                           <th>F. creado</th>
+                           <th>F. modif</th>
+                           <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if obj %}
+                            {% for item in obj %}
+                                  <tr>
+                                    <td> {{ item.id }} </td>
+                                    <td> {{ item.descripcion }}</td>
+                                    <td> {{ item.estado|yesno:"Activo, Inactivo" }}</td>
+                                    <td> {{ item.fc|date:"d/m/Y  H:i:s" }}</td>
+                                    <td> {{ item.fm|date:"d/m/Y  H:i:s" }}</td>
+                                    <td>
+                                        <a href="{% url 'inv:categoria_edit' item.id %}" class="btn btn-warning btn-sm"><i class="far fa-edit"></i></a>
+                                        <a href="{% url 'inv:categoria_delete' item.id %}" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>
+                                    </td>
+                                  </tr>
+                             {% endfor %}
+                        {% endif %}
 
+                    </tbody>
+                </table>
               </div>
               <!-- /.card-body -->
-              <div class="card-footer">
-                Footer
-              </div>
               <!-- /.card-footer-->
             </div>
             <!-- /.card -->
@@ -34,5 +69,9 @@
 {% endblock %}
 
 {% block js_code %}
-
+    <script>
+        $(document).ready(function () {
+             $('#table_categoria').DataTable({});
+        });
+    </script>
 {% endblock %}

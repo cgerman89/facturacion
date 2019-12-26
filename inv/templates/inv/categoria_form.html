@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+{% block title_page %} Crear Categoria {% endblock %}
+{% load bootstrap4 %}
+{% block contenido %}
+    <div class="row">
+        <div class="col-8 offset-2">
+             <div class="card card-light">
+              <div class="card-header">
+                <h3 class="card-title">
+                  {% if obj %} Editar Categoria {% else %}  Agregar Categoria {% endif %}
+                </h3>
+              </div>
+              <form role="form"  method="post">
+                   {% csrf_token %}
+                    <div class="card-body">
+                          <div class="form-group">
+                            {{ form.descripcion.errors }}
+                            <label for="{{ form.descripcion.id_for_label }}"> {{ form.descripcion.label_tag }} </label>
+                            {{ form.descripcion }}
+                            {{ form.descripcion.help_text }}
+                          </div>
+                          <div class="form-group">
+                            <div class="icheck-primary d-inline">
+                                {{ form.estado }}
+                                <label for="{{ form.estado.id_for_label }}">{{ form.estado.label_tag }}</label>
+                            </div>
+                          </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-outline-primary"><i class="fas fa-save"></i>&nbsp;Guardar</button>
+                      <a href="{% url 'inv:categoria_list' %}" class="btn btn-outline-secondary float-right"><i class="fas fa-undo-alt"></i>&nbsp;Cancel</a>
+                    </div>
+              </form>
+            </div>
+            {{ form.categoria_errors }}
+        </div>
+
+    </div>
+{% endblock %}
